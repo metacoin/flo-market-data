@@ -1,0 +1,18 @@
+{
+    "bittrex": {
+        "BTC_FLO_LAST":"https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-flo",
+        "BTC_FLO_VOL":"https://bittrex.com/api/v1.1/public/getmarketsummary?market=btc-flo"
+    },
+    "poloniex": {
+        "BTC_FLO_LAST":"https://poloniex.com/public?command=returnTradeHistory&currencyPair=BTC_FLO",
+        "BTC_FLO_VOL":"https://poloniex.com/public?command=return24hVolume"
+    },
+    "cryptsy": {
+        "BTC_LTC_LAST":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=3",
+        "LTC_FLO_LAST":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=61",
+        "LTC_FLO_VOL":"http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=61"
+    },
+    "bitcoinaverage": {
+        "USD_BTC_LAST":"https://api.bitcoinaverage.com/ticker/global/USD/"
+    }
+}
