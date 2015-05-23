@@ -181,21 +181,178 @@ func parse_poloniex_btc_flo_volu(resp *http.Response) float64 {
 				}
 			}
 		}
-		/*
-			something := alldata[0].(map[string]interface{})
-			fmt.Printf("somethingelse: %v\n", something)
-			for k, v := range something {
+	}
+	return 0.0
+}
 
-				if k == "rate" {
-					rv, err := strconv.ParseFloat(v.(string), 64)
-					if err != nil {
-						log.Fatal(err)
-					} else {
-						return rv
+// CRYPTSY
+
+type Cryptsy_BTC_LTC_last struct {
+	Amount        float64 `json:"amount,string"`
+	Date          string  `json:"date"`
+	GlobalTradeID int64   `json:"globalTradeID"`
+	Rate          float64 `json:"rate,string"`
+	Total         float64 `json:"total,string"`
+	TradeID       int64   `json:"tradeID"`
+	Type          string  `json:"type"`
+}
+
+func get_cryptsy_btc_ltc_last(url string) float64 {
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		return parse_cryptsy_btc_ltc_last(resp)
+	}
+
+	return 0.0
+}
+
+func parse_cryptsy_btc_ltc_last(resp *http.Response) float64 {
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+
+		var alldata interface{}
+		json.Unmarshal(body, &alldata)
+		something := alldata.(map[string]interface{})
+		//fmt.Printf("somethingelse: %v\n", something)
+
+		for k, v := range something {
+			if k == "return" {
+				s := v.(map[string]interface{})
+				for k2, v2 := range s {
+					if k2 == "markets" {
+						s2 := v2.(map[string]interface{})
+						for k3, v3 := range s2 {
+							if k3 == "LTC" {
+								s3 := v3.(map[string]interface{})
+								//fmt.Printf("\ns3: %v\n", s3)
+								for k4, v4 := range s3 {
+									if k4 == "lasttradeprice" {
+										rv, err := strconv.ParseFloat(v4.(string), 64)
+										if err != nil {
+											return 0.0
+										} else {
+											return rv
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
-		*/
+		}
+	}
+
+	return 0.0
+}
+
+func get_cryptsy_ltc_flo_last(url string) (float64, float64) {
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		return parse_cryptsy_ltc_flo_last(resp)
+	}
+
+	return 0.0, 0.0
+}
+
+// this actually returns last trade and volume
+func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+
+		var alldata interface{}
+		json.Unmarshal(body, &alldata)
+		something := alldata.(map[string]interface{})
+		//fmt.Printf("somethingelse: %v\n", something)
+
+		for k, v := range something {
+			if k == "return" {
+				s := v.(map[string]interface{})
+				for k2, v2 := range s {
+					if k2 == "markets" {
+						s2 := v2.(map[string]interface{})
+						for k3, v3 := range s2 {
+							if k3 == "FLO" {
+								s3 := v3.(map[string]interface{})
+								//fmt.Printf("\ns3: %v\n", s3)
+
+								var volu float64 = 0.0
+								var last float64 = 0.0
+								for k4, v4 := range s3 {
+									if k4 == "lasttradeprice" {
+										var err error
+										last, err = strconv.ParseFloat(v4.(string), 64)
+										if err != nil {
+											// error
+										} else {
+											// last
+										}
+									}
+									if k4 == "volume" {
+										volu, err = strconv.ParseFloat(v4.(string), 64)
+										if err != nil {
+											// error
+										} else {
+											// volume
+										}
+									}
+								}
+								return last, volu
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return 0.0, 0.0
+}
+
+type Bitcoinaverage struct {
+	_24hAvg       float64 `json:"24h_avg"`
+	Ask           float64 `json:"ask"`
+	Bid           float64 `json:"bid"`
+	Last          float64 `json:"last"`
+	Timestamp     string  `json:"timestamp"`
+	VolumeBtc     float64 `json:"volume_btc"`
+	VolumePercent float64 `json:"volume_percent"`
+}
+
+func get_bitcoinaverage_usd(url string) float64 {
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		return parse_bitcoinaverage_usd(resp)
+	}
+
+	return 0.0
+}
+
+func parse_bitcoinaverage_usd(resp *http.Response) float64 {
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		alldata := Bitcoinaverage{}
+		json.Unmarshal(body, &alldata)
+		return alldata.Last
 	}
 
 	return 0.0
