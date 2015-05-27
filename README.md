@@ -78,7 +78,10 @@ flo/USD    : 0.00142257
 
 ## Block chain publishing
 
-Coming soon
+Coming soon!
+
+* Publish to the block chain via Alexandria (using flo-market-data as a plugin)
+* Publish to the block chain using flo-market-data as a standalone application
 
 # License
 
