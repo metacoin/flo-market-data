@@ -28,6 +28,8 @@ Remember to include all packages:
 $ go run *.go
 ```
 
+You'll see some output, a `.` is output every time the market data is received from remote URLs. 
+
 ## API
 
 Hit this URL with a `GET` request to see the recent market data:
@@ -50,11 +52,17 @@ You'll get a response like this:
 }
 ```
 
+When you hit the API with a call, you'll see something like this:
+
+```
+GET /flo-market-data/v1/getAll 127.0.0.1:64651
+```
+
 ## Example output
 
-*NOTE*: API mode is enabled, verbose mode is coming soon (there is no command-line output in API mode).
+*NOTE*: API mode is enabled, so verbose mode is disabled (there is no real command-line output in API mode).
 
-If all is well, you should see something like this:
+In verbose mode, you should see something like this:
 
 ```
 $ go run *.go
