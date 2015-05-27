@@ -7,8 +7,11 @@ updates to the block chain periodically.
 
 flo-market-data is written in go.
 
+It requires mattn/go-sqlite3 for database operations.
+
 ```
-go get github.com/metacoin/flo-market-data
+$ go get github.com/mattn/go-sqlite3
+$ go get github.com/metacoin/flo-market-data
 ```
 
 ## Config
@@ -22,7 +25,7 @@ Navigate to the flo-market-data directory and run the program!
 Remember to include all packages:
 
 ```
-go run *.go
+$ go run *.go
 ```
 
 ## API
