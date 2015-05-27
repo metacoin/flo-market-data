@@ -11,6 +11,10 @@ flo-market-data is written in go.
 go get github.com/metacoin/flo-market-data
 ```
 
+## Config
+
+Set API to "false" if you don't want the API server to run. Otherwise, config is pretty straightforward, I think. You can find the config documentation [here][1].
+
 ## Running
 
 Navigate to the flo-market-data directory and run the program!
@@ -21,7 +25,32 @@ Remember to include all packages:
 go run *.go
 ```
 
+## API
+
+Hit this URL with a `GET` request to see the recent market data:
+
+```
+http://127.0.0.1:41290/flo-market-data/v1/getAll
+```
+
+You'll get a response like this:
+
+```
+{
+    "Unixtime": 1432690251,
+    "Cryptsy": "0.1694",
+    "Poloniex": "0.3155",
+    "Bittrex": "0.5151",
+    "Daily_volume": "0.00000724",
+    "USD": "0.00173"
+}
+```
+
+Coming soon
+
 ## Example output
+
+*NOTE*: API mode is enabled, verbose mode is coming soon (there is no command-line output in API mode).
 
 If all is well, you should see something like this:
 
@@ -37,10 +66,6 @@ weighted   : 0.00000590
 flo/USD    : 0.00142257
 ```
 
-## API
-
-Coming soon
-
 ## Block chain publishing
 
 Coming soon
@@ -48,3 +73,5 @@ Coming soon
 # License
 
 MIT
+
+[1]:./docs/CONFIG.md
