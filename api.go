@@ -8,12 +8,13 @@ import (
 )
 
 type APIgetAllResponse struct {
-	Unixtime     int
-	Cryptsy      string
-	Poloniex     string
-	Bittrex      string
-	Daily_volume string
-	USD          string
+	Unixtime     int    `json:"unixtime"`
+	Cryptsy      string `json:"cryptsy"`
+	Poloniex     string `json:"poloniex"`
+	Bittrex      string `json:"bittrex"`
+	Daily_volume string `json:"daily-volume"`
+	Weighted     string `json:"weighted"`
+	USD          string `json:"USD"`
 }
 
 func APIgetAll(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +33,7 @@ func APIgetAll(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	stmt, err := dbtx.Prepare(`select unixtime, cryptsy, poloniex, bittrex, daily_volume, USD from markets order by unixtime desc LIMIT 1`)
+	stmt, err := dbtx.Prepare(`select unixtime, cryptsy, poloniex, bittrex, daily_volume, weighted, USD from markets order by unixtime desc LIMIT 1`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,7 +47,7 @@ func APIgetAll(w http.ResponseWriter, r *http.Request) {
 
 	m := APIgetAllResponse{}
 	for rows.Next() {
-		rows.Scan(&m.Unixtime, &m.Cryptsy, &m.Poloniex, &m.Bittrex, &m.Daily_volume, &m.USD)
+		rows.Scan(&m.Unixtime, &m.Cryptsy, &m.Poloniex, &m.Bittrex, &m.Daily_volume, &m.Weighted, &m.USD)
 		resultCount++
 		break
 	}

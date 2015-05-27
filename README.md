@@ -37,16 +37,15 @@ You'll get a response like this:
 
 ```
 {
-    "Unixtime": 1432690251,
-    "Cryptsy": "0.1694",
-    "Poloniex": "0.3155",
-    "Bittrex": "0.5151",
-    "Daily_volume": "0.00000724",
-    "USD": "0.00173"
+    "unixtime": 1432690997,
+    "cryptsy": "0.1452",
+    "poloniex": "0.2948",
+    "bittrex": "0.5600",
+    "daily-volume": "128463.84375000",
+    "weighted": "0.00000703",
+    "USD": "0.00168"
 }
 ```
-
-Coming soon
 
 ## Example output
 

@@ -73,6 +73,7 @@ func createTables() {
 			poloniex TEXT,
 			bittrex TEXT,
 			daily_volume TEXT,
+			weighted TEXT,
 			USD TEXT	
                 )`,
 	}

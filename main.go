@@ -117,6 +117,7 @@ func watchMarkets() {
 		bittrex_share := strconv.FormatFloat(market_data.bittrex_BTC_FLO_vol_share, 'f', 4, 32)
 		poloniex_share := strconv.FormatFloat(market_data.poloniex_BTC_FLO_vol_share, 'f', 4, 32)
 		cryptsy_share := strconv.FormatFloat(market_data.cryptsy_LTC_FLO_vol_share, 'f', 4, 32)
+		daily_volume := strconv.FormatFloat(market_data.FLO_24h_vol, 'f', 8, 32)
 		weighted := strconv.FormatFloat(market_data.BTC_FLO_last_weighted, 'f', 8, 32)
 		USD := strconv.FormatFloat(market_data.USD_FLO_last_weighted, 'f', 5, 32)
 
@@ -127,7 +128,7 @@ func watchMarkets() {
 			log.Fatal(err)
 		}
 
-		stmtstr := `insert into markets (unixtime, cryptsy, poloniex, bittrex, daily_volume, USD) values (strftime('%s','now'), "` + cryptsy_share + `", "` + poloniex_share + `", "` + bittrex_share + `", "` + weighted + `", "` + USD + `")`
+		stmtstr := `insert into markets (unixtime, cryptsy, poloniex, bittrex, daily_volume, weighted, USD) values (strftime('%s','now'), "` + cryptsy_share + `", "` + poloniex_share + `", "` + bittrex_share + `", "` + daily_volume + `", "` + weighted + `", "` + USD + `")`
 
 		stmt, err := dbtx.Prepare(stmtstr)
 		if err != nil {
