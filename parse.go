@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -49,7 +50,12 @@ func parse_bittrex_btc_flo_last(resp *http.Response) float64 {
 	} else {
 		data := Bittrex_BTC_FLO{}
 		json.Unmarshal(body, &data)
-		result := data.Result[0]
+
+		if len(data) > 0 {
+			result := data.Result[0]
+		} else {
+			fmt.Printf("\nAPI timeout (bittrex)...\n")
+		}
 		return result.Last
 	}
 
@@ -76,7 +82,11 @@ func parse_bittrex_btc_flo_volu(resp *http.Response) float64 {
 	} else {
 		data := Bittrex_BTC_FLO{}
 		json.Unmarshal(body, &data)
-		result := data.Result[0]
+		if len(data) > 0 {
+			result := data.Result[0]
+		} else {
+			fmt.Printf("\nAPI timeout (bittrex)...\n")
+		}
 		return result.Volume
 	}
 
@@ -113,7 +123,11 @@ func parse_poloniex_btc_flo_last(resp *http.Response) float64 {
 	} else {
 		var alldata []interface{}
 		json.Unmarshal(body, &alldata)
-		something := alldata[0].(map[string]interface{})
+		if len(alldata) > 0 {
+			something := alldata[0].(map[string]interface{})
+		} else {
+			fmt.Printf("\nAPI timeout (poloniex)\n")
+		}
 		//fmt.Printf("somethingelse: %v\n", something)
 		for k, v := range something {
 			if k == "rate" {
