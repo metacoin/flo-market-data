@@ -51,12 +51,12 @@ func parse_bittrex_btc_flo_last(resp *http.Response) float64 {
 		data := Bittrex_BTC_FLO{}
 		json.Unmarshal(body, &data)
 
-		if len(data) > 0 {
+		if len(data.Result) > 0 {
 			result := data.Result[0]
+			return result.Last
 		} else {
 			fmt.Printf("\nAPI timeout (bittrex)...\n")
 		}
-		return result.Last
 	}
 
 	return 0.0
@@ -82,12 +82,12 @@ func parse_bittrex_btc_flo_volu(resp *http.Response) float64 {
 	} else {
 		data := Bittrex_BTC_FLO{}
 		json.Unmarshal(body, &data)
-		if len(data) > 0 {
+		if len(data.Result) > 0 {
 			result := data.Result[0]
+			return result.Volume
 		} else {
 			fmt.Printf("\nAPI timeout (bittrex)...\n")
 		}
-		return result.Volume
 	}
 
 	return 0.0
@@ -125,20 +125,20 @@ func parse_poloniex_btc_flo_last(resp *http.Response) float64 {
 		json.Unmarshal(body, &alldata)
 		if len(alldata) > 0 {
 			something := alldata[0].(map[string]interface{})
+			for k, v := range something {
+				if k == "rate" {
+					rv, err := strconv.ParseFloat(v.(string), 64)
+					if err != nil {
+						log.Fatal(err)
+					} else {
+						return rv
+					}
+				}
+			}
 		} else {
 			fmt.Printf("\nAPI timeout (poloniex)\n")
 		}
 		//fmt.Printf("somethingelse: %v\n", something)
-		for k, v := range something {
-			if k == "rate" {
-				rv, err := strconv.ParseFloat(v.(string), 64)
-				if err != nil {
-					log.Fatal(err)
-				} else {
-					return rv
-				}
-			}
-		}
 	}
 
 	return 0.0
