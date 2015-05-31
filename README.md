@@ -14,6 +14,12 @@ $ go get github.com/mattn/go-sqlite3
 $ go get github.com/metacoin/flo-market-data
 ```
 
+Optional: install sqlite3 locally!
+
+*Ubuntu*: `sudo apt-get install sqlite3`
+
+*OSX*: `brew install sqlite3`
+
 ## Config
 
 Set API to "false" if you don't want the API server to run. Otherwise, config is pretty straightforward, I think. You can find the config documentation [here][1].
