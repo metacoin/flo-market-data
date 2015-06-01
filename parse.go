@@ -49,7 +49,11 @@ func parse_bittrex_btc_flo_last(resp *http.Response) float64 {
 		log.Fatal(err)
 	} else {
 		data := Bittrex_BTC_FLO{}
-		json.Unmarshal(body, &data)
+		err := json.Unmarshal(body, &data)
+		// TODO: make this not suck
+		if err != nil {
+			return 0
+		}
 
 		if len(data.Result) > 0 {
 			result := data.Result[0]
@@ -170,6 +174,12 @@ func parse_poloniex_btc_flo_volu(resp *http.Response) float64 {
 	} else {
 		var alldata interface{}
 		json.Unmarshal(body, &alldata)
+
+		// TODO: make this not suck
+		if alldata == nil {
+			return 0
+		}
+
 		//fmt.Printf("%v\n", alldata)
 		something := alldata.(map[string]interface{})
 		//fmt.Printf("%v\n", something)
@@ -233,6 +243,12 @@ func parse_cryptsy_btc_ltc_last(resp *http.Response) float64 {
 
 		var alldata interface{}
 		json.Unmarshal(body, &alldata)
+
+		// TODO: make this not suck
+		if alldata == nil {
+			return 0
+		}
+
 		something := alldata.(map[string]interface{})
 		//fmt.Printf("somethingelse: %v\n", something)
 
@@ -290,6 +306,12 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 
 		var alldata interface{}
 		json.Unmarshal(body, &alldata)
+
+		// TODO: make this not suck
+		if alldata != nil {
+			return 0, 0
+		}
+
 		something := alldata.(map[string]interface{})
 		//fmt.Printf("somethingelse: %v\n", something)
 
@@ -365,7 +387,11 @@ func parse_bitcoinaverage_usd(resp *http.Response) float64 {
 		log.Fatal(err)
 	} else {
 		alldata := Bitcoinaverage{}
-		json.Unmarshal(body, &alldata)
+		err := json.Unmarshal(body, &alldata)
+		// TODO: make this not suck
+		if err != nil {
+			return 0
+		}
 		return alldata.Last
 	}
 
