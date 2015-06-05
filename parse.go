@@ -305,7 +305,7 @@ func get_cryptsy_ltc_flo_last(url string) (float64, float64) {
 	if err != nil {
 		fmt.Println("\nError getting Cryptsy FLO/LTC exchange rate.")
 		fmt.Printf("%v\n", err)
-		return 0
+		return 0, 0
 	} else {
 		return parse_cryptsy_ltc_flo_last(resp)
 	}
@@ -321,7 +321,7 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 	if err != nil {
 		fmt.Println("\nError getting Cryptsy market volume.")
 		fmt.Printf("%v\n", err)
-		return 0
+		return 0, 0
 	} else {
 
 		var alldata interface{}
