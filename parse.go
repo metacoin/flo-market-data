@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -34,7 +33,9 @@ func get_bittrex_btc_flo_last(url string) float64 {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Bittrex market data.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		return parse_bittrex_btc_flo_last(resp)
 	}
@@ -46,7 +47,9 @@ func get_bittrex_btc_flo_last(url string) float64 {
 func parse_bittrex_btc_flo_last(resp *http.Response) float64 {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Bittrex market data.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		data := Bittrex_BTC_FLO{}
 		err := json.Unmarshal(body, &data)
@@ -70,7 +73,9 @@ func get_bittrex_btc_flo_volu(url string) float64 {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Bittrex market volume.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		return parse_bittrex_btc_flo_volu(resp)
 	}
@@ -82,7 +87,9 @@ func get_bittrex_btc_flo_volu(url string) float64 {
 func parse_bittrex_btc_flo_volu(resp *http.Response) float64 {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Bittrex market volume.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		data := Bittrex_BTC_FLO{}
 		json.Unmarshal(body, &data)
@@ -112,7 +119,9 @@ func get_poloniex_btc_flo_last(url string) float64 {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Poloniex FLO exchange rate.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		return parse_poloniex_btc_flo_last(resp)
 	}
@@ -123,7 +132,9 @@ func get_poloniex_btc_flo_last(url string) float64 {
 func parse_poloniex_btc_flo_last(resp *http.Response) float64 {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Poloniex market data.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		var alldata []interface{}
 		json.Unmarshal(body, &alldata)
@@ -133,7 +144,9 @@ func parse_poloniex_btc_flo_last(resp *http.Response) float64 {
 				if k == "rate" {
 					rv, err := strconv.ParseFloat(v.(string), 64)
 					if err != nil {
-						log.Fatal(err)
+						fmt.Println("\nCan't parse Polonirex BTC/FLO JSON.")
+						fmt.Printf("%v\n", err)
+						return 0
 					} else {
 						return rv
 					}
@@ -142,7 +155,6 @@ func parse_poloniex_btc_flo_last(resp *http.Response) float64 {
 		} else {
 			fmt.Printf("\nAPI timeout (poloniex)\n")
 		}
-		//fmt.Printf("somethingelse: %v\n", something)
 	}
 
 	return 0.0
@@ -159,7 +171,9 @@ func get_poloniex_btc_flo_volu(url string) float64 {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Poloniex market volume.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		return parse_poloniex_btc_flo_volu(resp)
 	}
@@ -170,7 +184,9 @@ func get_poloniex_btc_flo_volu(url string) float64 {
 func parse_poloniex_btc_flo_volu(resp *http.Response) float64 {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Poloniex market volume.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		var alldata interface{}
 		json.Unmarshal(body, &alldata)
@@ -180,24 +196,20 @@ func parse_poloniex_btc_flo_volu(resp *http.Response) float64 {
 			return 0
 		}
 
-		//fmt.Printf("%v\n", alldata)
-		something := alldata.(map[string]interface{})
-		//fmt.Printf("%v\n", something)
-
-		for k, v := range something {
-			//fmt.Printf("k: %v, v: %v\n", k, v)
+		datamap := alldata.(map[string]interface{})
+		for k, v := range datamap {
 
 			if k == "BTC_FLO" {
 				vv := v.(map[string]interface{})
-				//fmt.Printf("vv(%T): %v\n", vv, vv)
 
 				for kk, vvv := range vv {
-					//fmt.Printf("k: %v, v: %v\n", kk, vvv)
 
 					if kk == "FLO" {
 						rv, err := strconv.ParseFloat(vvv.(string), 64)
 						if err != nil {
-							log.Fatal(err)
+							fmt.Println("\nError parsing Poloniex volume JSON.")
+							fmt.Printf("%v\n", err)
+							return 0
 						} else {
 							return rv
 						}
@@ -225,7 +237,9 @@ func get_cryptsy_btc_ltc_last(url string) float64 {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Cryptsy BTC/LTC exchange rate.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		return parse_cryptsy_btc_ltc_last(resp)
 	}
@@ -238,7 +252,9 @@ func parse_cryptsy_btc_ltc_last(resp *http.Response) float64 {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Cryptsy market data.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 
 		var alldata interface{}
@@ -287,7 +303,9 @@ func get_cryptsy_ltc_flo_last(url string) (float64, float64) {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Cryptsy FLO/LTC exchange rate.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		return parse_cryptsy_ltc_flo_last(resp)
 	}
@@ -301,7 +319,9 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Cryptsy market volume.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 
 		var alldata interface{}
@@ -373,7 +393,9 @@ func get_bitcoinaverage_usd(url string) float64 {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Bitcoinaverage market data.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		return parse_bitcoinaverage_usd(resp)
 	}
@@ -384,7 +406,9 @@ func get_bitcoinaverage_usd(url string) float64 {
 func parse_bitcoinaverage_usd(resp *http.Response) float64 {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("\nError getting Bitcoinaverage USD exchange rate.")
+		fmt.Printf("%v\n", err)
+		return 0
 	} else {
 		alldata := Bitcoinaverage{}
 		err := json.Unmarshal(body, &alldata)
