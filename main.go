@@ -147,7 +147,7 @@ func watchMarkets() {
 		dbtx.Commit()
 
 		fmt.Printf(".")
-		time.Sleep(20000 * time.Millisecond)
+		time.Sleep(90000 * time.Millisecond)
 	}
 
 }
