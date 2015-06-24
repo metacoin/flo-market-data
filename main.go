@@ -101,6 +101,8 @@ func watchMarkets() {
 		market_data.poloniex_BTC_FLO_vol_share = market_data.poloniex_BTC_FLO_volu / market_data.FLO_24h_vol
 		market_data.cryptsy_LTC_FLO_vol_share = market_data.cryptsy_LTC_FLO_volu / market_data.FLO_24h_vol
 
+		// fmt.Printf("cryptsy_LTC_FLO_volu = %v\n", market_data.cryptsy_LTC_FLO_volu)
+
 		market_data.BTC_FLO_last_weighted = (market_data.bittrex_BTC_FLO_vol_share * market_data.bittrex_BTC_FLO_last) + (market_data.poloniex_BTC_FLO_vol_share * market_data.poloniex_BTC_FLO_last) + (market_data.cryptsy_LTC_FLO_vol_share * market_data.cryptsy_BTC_LTC_last * market_data.cryptsy_LTC_FLO_last)
 
 		market_data.USD_FLO_last_weighted = market_data.bitcoinaverage_USD * market_data.BTC_FLO_last_weighted

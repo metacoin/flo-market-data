@@ -222,17 +222,6 @@ func parse_poloniex_btc_flo_volu(resp *http.Response) float64 {
 }
 
 // CRYPTSY
-
-type Cryptsy_BTC_LTC_last struct {
-	Amount        float64 `json:"amount,string"`
-	Date          string  `json:"date"`
-	GlobalTradeID int64   `json:"globalTradeID"`
-	Rate          float64 `json:"rate,string"`
-	Total         float64 `json:"total,string"`
-	TradeID       int64   `json:"tradeID"`
-	Type          string  `json:"type"`
-}
-
 func get_cryptsy_btc_ltc_last(url string) float64 {
 
 	resp, err := http.Get(url)
@@ -307,6 +296,7 @@ func get_cryptsy_ltc_flo_last(url string) (float64, float64) {
 		fmt.Printf("%v\n", err)
 		return 0, 0
 	} else {
+		//fmt.Printf("getting cryptsy ltc/flo data from %v\n", url)
 		return parse_cryptsy_ltc_flo_last(resp)
 	}
 
@@ -328,7 +318,7 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 		json.Unmarshal(body, &alldata)
 
 		// TODO: make this not suck
-		if alldata != nil {
+		if alldata == nil {
 			return 0, 0
 		}
 
@@ -336,6 +326,7 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 		//fmt.Printf("somethingelse: %v\n", something)
 
 		for k, v := range something {
+			//fmt.Printf("k, v: %v, %v\n", k, v)
 			if k == "return" {
 				s := v.(map[string]interface{})
 				for k2, v2 := range s {
@@ -354,6 +345,7 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 										last, err = strconv.ParseFloat(v4.(string), 64)
 										if err != nil {
 											// error
+											fmt.Printf("error parsing cryptsy lasttradeprice: %v\n", err)
 										} else {
 											// last
 										}
@@ -362,11 +354,13 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 										volu, err = strconv.ParseFloat(v4.(string), 64)
 										if err != nil {
 											// error
+											fmt.Printf("error parsing cryptsy volume: %v\n", err)
 										} else {
 											// volume
 										}
 									}
 								}
+								//fmt.Printf("last: %v, volu: %v\n", last, volu)
 								return last, volu
 							}
 						}
