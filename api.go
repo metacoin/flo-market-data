@@ -19,6 +19,7 @@ type APIgetAllResponse struct {
 
 func APIgetAll(w http.ResponseWriter, r *http.Request) {
 
+    w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Access-Control-Allow-Methods", "GET")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 

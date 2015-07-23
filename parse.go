@@ -142,6 +142,9 @@ func parse_poloniex_btc_flo_last(resp *http.Response) float64 {
 			something := alldata[0].(map[string]interface{})
 			for k, v := range something {
 				if k == "rate" {
+                    if v == nil {
+                        return 0
+                    }
 					rv, err := strconv.ParseFloat(v.(string), 64)
 					if err != nil {
 						fmt.Println("\nCan't parse Polonirex BTC/FLO JSON.")
@@ -205,6 +208,9 @@ func parse_poloniex_btc_flo_volu(resp *http.Response) float64 {
 				for kk, vvv := range vv {
 
 					if kk == "FLO" {
+                        if vvv == nil {
+                            return 0
+                        }
 						rv, err := strconv.ParseFloat(vvv.(string), 64)
 						if err != nil {
 							fmt.Println("\nError parsing Poloniex volume JSON.")
@@ -269,6 +275,9 @@ func parse_cryptsy_btc_ltc_last(resp *http.Response) float64 {
 								//fmt.Printf("\ns3: %v\n", s3)
 								for k4, v4 := range s3 {
 									if k4 == "lasttradeprice" {
+                                        if v4 == nil {
+                                            return 0.0
+                                        }
 										rv, err := strconv.ParseFloat(v4.(string), 64)
 										if err != nil {
 											return 0.0
@@ -342,6 +351,9 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 								for k4, v4 := range s3 {
 									if k4 == "lasttradeprice" {
 										var err error
+                                        if v4 == nil {
+                                            return 0.0, 0.0
+                                        }
 										last, err = strconv.ParseFloat(v4.(string), 64)
 										if err != nil {
 											// error
@@ -351,6 +363,9 @@ func parse_cryptsy_ltc_flo_last(resp *http.Response) (float64, float64) {
 										}
 									}
 									if k4 == "volume" {
+                                        if v4 == nil {
+                                            return 0.0, 0.0
+                                        }
 										volu, err = strconv.ParseFloat(v4.(string), 64)
 										if err != nil {
 											// error
